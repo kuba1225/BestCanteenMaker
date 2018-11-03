@@ -16,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import logic.BCM;
 
-public class SetParametersSecondStep extends JFrame {
+public class ParametersInputPanel extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -27,7 +27,7 @@ public class SetParametersSecondStep extends JFrame {
 	private JTextField textField_5;
 	private JTextField textField_6;
 
-	public SetParametersSecondStep(BCM dataHolder) {
+	public ParametersInputPanel(BCM dataHolder) {
 		super("Best Canteen Maker");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import logic.BCM;
 
-public class SetParametersFirstStep extends JFrame {
+public class DimensionsInputPanel extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField aTextField;
@@ -27,7 +27,7 @@ public class SetParametersFirstStep extends JFrame {
 	private JTextField eTextField;
 	private JTextField fTextField;
 
-	public SetParametersFirstStep() {
+	public DimensionsInputPanel() {
 		super("Best Canteen Maker");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -45,7 +45,7 @@ public class SetParametersFirstStep extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		JLabel WallSchemeLabel = new JLabel("New label");
-		WallSchemeLabel.setIcon(new ImageIcon(SetParametersFirstStep.class.getResource("/gui/images/WallNull.jpg")));
+		WallSchemeLabel.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallNull.jpg")));
 		WallSchemeLabel.setBounds(20, 43, 676, 421);
 		contentPane.add(WallSchemeLabel);
 
@@ -85,7 +85,7 @@ public class SetParametersFirstStep extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				WallSchemeLabel
-						.setIcon(new ImageIcon(SetParametersFirstStep.class.getResource("/gui/images/WallA.jpg")));
+						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallA.jpg")));
 			}
 		});
 		aTextField.setBounds(102, 490, 86, 20);
@@ -97,7 +97,7 @@ public class SetParametersFirstStep extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				WallSchemeLabel
-						.setIcon(new ImageIcon(SetParametersFirstStep.class.getResource("/gui/images/WallB.jpg")));
+						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallB.jpg")));
 			}
 		});
 		bTextField.setBounds(102, 515, 86, 20);
@@ -109,7 +109,7 @@ public class SetParametersFirstStep extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				WallSchemeLabel
-						.setIcon(new ImageIcon(SetParametersFirstStep.class.getResource("/gui/images/WallC.jpg")));
+						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallC.jpg")));
 			}
 		});
 		cTextField.setBounds(102, 540, 86, 20);
@@ -121,7 +121,7 @@ public class SetParametersFirstStep extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				WallSchemeLabel
-						.setIcon(new ImageIcon(SetParametersFirstStep.class.getResource("/gui/images/WallD.jpg")));
+						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallD.jpg")));
 			}
 		});
 		dTextField.setBounds(102, 565, 86, 20);
@@ -133,7 +133,7 @@ public class SetParametersFirstStep extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				WallSchemeLabel
-						.setIcon(new ImageIcon(SetParametersFirstStep.class.getResource("/gui/images/WallE.jpg")));
+						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallE.jpg")));
 			}
 		});
 		eTextField.setBounds(102, 590, 86, 20);
@@ -145,7 +145,7 @@ public class SetParametersFirstStep extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				WallSchemeLabel
-						.setIcon(new ImageIcon(SetParametersFirstStep.class.getResource("/gui/images/WallF.jpg")));
+						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallF.jpg")));
 			}
 		});
 		fTextField.setBounds(102, 615, 86, 20);
@@ -166,7 +166,7 @@ public class SetParametersFirstStep extends JFrame {
 				
 				if(checkIfErrorsExist(errorTextPane, dataHolder) == 0){
 					setVisible(false);
-					SetParametersSecondStep set = new SetParametersSecondStep(dataHolder);
+					ParametersInputPanel set = new ParametersInputPanel(dataHolder);
 					set.setVisible(true);
 				}
 				

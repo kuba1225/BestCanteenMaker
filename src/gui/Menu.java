@@ -15,11 +15,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
-public class MainMenu extends JFrame {
+public class Menu extends JFrame {
 
 	private JPanel contentPane;
 
-	public MainMenu() {
+	public Menu() {
 		super("Best Canteen Maker");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 575);
@@ -33,7 +33,7 @@ public class MainMenu extends JFrame {
 		newCanteenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				SetParametersFirstStep setParams = new SetParametersFirstStep();
+				DimensionsInputPanel setParams = new DimensionsInputPanel();
 				setParams.setVisible(true);
 			}
 		});
@@ -67,7 +67,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(authorsButton);
 
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(MainMenu.class.getResource("/gui/images/MainMenu.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(Menu.class.getResource("/gui/images/MainMenu.jpg")));
 		lblNewLabel.setBounds(0, 0, 495, 550);
 		contentPane.add(lblNewLabel);
 	}

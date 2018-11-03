@@ -2,13 +2,13 @@ package gui;
 
 import java.awt.EventQueue;
 
-public class Launcher {
+public class BCMFrame {
 
 	public static void main(String[] args) {
 		Runnable newThread = new Runnable() {
 			public void run() {
 				try {
-					MainMenu frame = new MainMenu();
+					Menu frame = new Menu();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
