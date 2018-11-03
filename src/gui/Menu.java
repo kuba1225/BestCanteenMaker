@@ -1,74 +1,136 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
-public class Menu extends JFrame {
+import javax.swing.BoxLayout;
+import javax.swing.border.EmptyBorder;
+import java.awt.Font;
 
-	private JPanel contentPane;
+public class Menu extends JPanel {
 
-	public Menu() {
-		super("Best Canteen Maker");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 575);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		setResizable(false);
+	private JButton buttonStart;
+	private JButton buttonInstructions;
+	private JButton buttonExit;
+	private JLabel title;
+	private JPanel titlePanel;
+	private JPanel buttonPanel;
+	private CardLayout cardLayout;
 
-		JButton newCanteenButton = new JButton("New Canteen");
-		newCanteenButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				DimensionsInputPanel setParams = new DimensionsInputPanel();
-				setParams.setVisible(true);
-			}
-		});
-		newCanteenButton.setBounds(101, 114, 279, 35);
-		contentPane.add(newCanteenButton);
-
-		JButton instructionsButton = new JButton("Instructions");
-		instructionsButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Instructions instructions = new Instructions();
-				instructions.setVisible(true);
-			}
-		});
-		instructionsButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		instructionsButton.setBounds(101, 180, 279, 35);
-		contentPane.add(instructionsButton);
-
-		JButton authorsButton = new JButton("Authors & Informations");
-		authorsButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Authors authors = new Authors();
-				authors.setVisible(true);
-			}
-		});
-		authorsButton.setBounds(101, 249, 279, 35);
-		contentPane.add(authorsButton);
-
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(Menu.class.getResource("/gui/images/MainMenu.jpg")));
-		lblNewLabel.setBounds(0, 0, 495, 550);
-		contentPane.add(lblNewLabel);
+	/**
+	 * Create the panel.
+	 */
+	public Menu(CardLayout cardLayout) {
+		this.cardLayout = cardLayout;
+		showMenu();
 	}
+
+	private void showMenu() {
+
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+
+		// TITLE PANEL
+		title = new JLabel("Best Canteen Maker");
+		title.setForeground(Color.WHITE);
+		title.setFont(new Font("Arial Black", Font.PLAIN, 30));
+		titlePanel = new JPanel();
+		titlePanel.add(title);
+		titlePanel.setMaximumSize(new Dimension(500, 100));
+		titlePanel.setSize(new Dimension(500, 100));
+		titlePanel.setLayout(new GridBagLayout());
+		titlePanel.setBorder(new EmptyBorder(40, 40, 40, 40));
+		titlePanel.setOpaque(false);
+		this.add(titlePanel);
+
+		// BUTTON PANEL
+		buttonPanel = new JPanel(new GridLayout(3, 1, 100, 80));
+		buttonPanel.setSize(new Dimension(500, 550));
+		buttonPanel.setMaximumSize(new Dimension(800, 550));
+
+		buttonStart = new JButton("Nowa sto³ówka");
+		buttonInstructions = new JButton("Instrukcja");
+		buttonExit = new JButton("Wyjœcie");
+		buttonPanel.setBorder(new EmptyBorder(100, 100, 100, 100));
+		buttonPanel.add(buttonStart);
+		buttonPanel.add(buttonInstructions);
+		buttonPanel.add(buttonExit);
+		buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+		buttonPanel.setOpaque(false);
+		this.add(buttonPanel);
+
+		buttonStart.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				clickedStartButton();
+			}
+		});
+		buttonStart.setFont(new Font("Arial", Font.PLAIN, 20));
+
+		buttonInstructions.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				clickedInstructionsButton();
+			}
+		});
+		buttonInstructions.setFont(new Font("Arial", Font.PLAIN, 20));
+
+		buttonExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				clickedExitButton();
+			}
+		});
+		buttonExit.setFont(new Font("Arial", Font.PLAIN, 20));
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		GradientPaint gp = new GradientPaint(0, 0, Color.BLUE, 0, getHeight(), Color.BLACK);
+		g2d.setPaint(gp);
+		g2d.fillRect(0, 0, getWidth(), getHeight());
+	}
+
+	private void clickedStartButton() {
+		cardLayout.show(this.getParent(), "DimensionsInputPanel");
+	}
+
+	public void clickedInstructionsButton() {
+		cardLayout.show(this.getParent(), "Instructions");
+	}
+
+	public void clickedExitButton() {
+		System.exit(0);
+	}
+
 }

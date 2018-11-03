@@ -1,212 +1,317 @@
 package gui;
 
+import java.awt.BasicStroke;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.SystemColor;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-import logic.BCM;
+import logic.DataHolder;
+import logic.Individual;
 
-public class DimensionsInputPanel extends JFrame {
+public class DimensionsInputPanel extends JPanel {
 
-	private JPanel contentPane;
-	private JTextField aTextField;
-	private JTextField bTextField;
-	private JTextField cTextField;
-	private JTextField dTextField;
-	private JTextField eTextField;
-	private JTextField fTextField;
+	private JPanel titlePanel;
+	private JLabel title;
 
-	public DimensionsInputPanel() {
-		super("Best Canteen Maker");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 728, 689);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	private WallsPanel wallsPanel;
 
-		BCM dataHolder = new BCM();
+	private JLabel wallA;
+	private JLabel wallB;
+	private JLabel wallC;
+	private JLabel wallD;
+	private JLabel wallE;
+	private JLabel wallF;
 
-		JLabel lblNewLabel = new JLabel("Insert walls size parameters");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel.setBounds(10, 11, 204, 21);
-		contentPane.add(lblNewLabel);
+	private JPanel dataInputPanel;
 
-		JLabel WallSchemeLabel = new JLabel("New label");
-		WallSchemeLabel.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallNull.jpg")));
-		WallSchemeLabel.setBounds(20, 43, 676, 421);
-		contentPane.add(WallSchemeLabel);
+	private JTextField inputWallA;
+	private JTextField inputWallB;
+	private JTextField inputWallC;
+	private JTextField inputWallD;
+	private JTextField inputWallE;
+	private JTextField inputWallF;
 
-		JLabel lblWallALength = new JLabel("wall a length");
-		lblWallALength.setBounds(20, 493, 78, 14);
-		contentPane.add(lblWallALength);
+	private JPanel errorPanel;
+	private JLabel errorLabel;
 
-		JLabel lblNewLabel_1 = new JLabel("wall b length");
-		lblNewLabel_1.setBounds(20, 518, 78, 14);
-		contentPane.add(lblNewLabel_1);
+	private JPanel buttonPanel;
+	private JButton backButton;
+	private JButton nextButton;
 
-		JLabel lblNewLabel_2 = new JLabel("wall c length");
-		lblNewLabel_2.setBounds(20, 543, 78, 14);
-		contentPane.add(lblNewLabel_2);
+	private CardLayout cardLayout;
+	private DataHolder dataHolder;
 
-		JLabel lblNewLabel_3 = new JLabel("wall d length");
-		lblNewLabel_3.setBounds(20, 568, 78, 14);
-		contentPane.add(lblNewLabel_3);
+	/**
+	 * Create the panel.
+	 */
+	public DimensionsInputPanel(CardLayout cardLayout, DataHolder dataHolder) {
+		this.cardLayout = cardLayout;
+		this.dataHolder = dataHolder;
 
-		JLabel lblWallELength = new JLabel("wall e length");
-		lblWallELength.setBounds(20, 593, 78, 14);
-		contentPane.add(lblWallELength);
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		JLabel lblWallFLength = new JLabel("wall f length");
-		lblWallFLength.setBounds(20, 618, 78, 14);
-		contentPane.add(lblWallFLength);
-		
-		JTextPane errorTextPane = new JTextPane();
-		errorTextPane.setForeground(Color.RED);
-		errorTextPane.setBackground(SystemColor.menu);
-		errorTextPane.setBounds(229, 493, 467, 96);
-		errorTextPane.setEditable(false);
-		contentPane.add(errorTextPane);
+		titlePanel = new JPanel();
+		title = new JLabel("Insert walls size parameters");
+		title.setFont(new Font("Arial", Font.PLAIN, 30));
+		titlePanel.add(title);
+		titlePanel.setMaximumSize(new Dimension(500, 100));
+		titlePanel.setSize(new Dimension(500, 100));
+		titlePanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+		titlePanel.setOpaque(false);
+		this.add(titlePanel);
 
-		aTextField = new JTextField();
-		aTextField.addMouseListener(new MouseAdapter() {
+		wallsPanel = new WallsPanel();
+		this.add(wallsPanel);
+
+		dataInputPanel = new JPanel(new GridLayout(6, 2, 25, 25));
+		wallA = new JLabel("Wall A:");
+		wallA.setFont(new Font("Arial", Font.PLAIN, 20));
+		wallB = new JLabel("Wall B:");
+		wallB.setFont(new Font("Arial", Font.PLAIN, 20));
+		wallC = new JLabel("Wall C:");
+		wallC.setFont(new Font("Arial", Font.PLAIN, 20));
+		wallD = new JLabel("Wall D:");
+		wallD.setFont(new Font("Arial", Font.PLAIN, 20));
+		wallE = new JLabel("Wall E:");
+		wallE.setFont(new Font("Arial", Font.PLAIN, 20));
+		wallF = new JLabel("Wall F:");
+		wallF.setFont(new Font("Arial", Font.PLAIN, 20));
+		inputWallA = new JTextField();
+		inputWallB = new JTextField();
+		inputWallC = new JTextField();
+		inputWallD = new JTextField();
+		inputWallE = new JTextField();
+		inputWallF = new JTextField();
+		dataInputPanel.setBorder(new EmptyBorder(20, 50, 20, 50));
+
+		dataInputPanel.add(wallA);
+		dataInputPanel.add(inputWallA);
+		dataInputPanel.add(wallB);
+		dataInputPanel.add(inputWallB);
+		dataInputPanel.add(wallC);
+		dataInputPanel.add(inputWallC);
+		dataInputPanel.add(wallD);
+		dataInputPanel.add(inputWallD);
+		dataInputPanel.add(wallE);
+		dataInputPanel.add(inputWallE);
+		dataInputPanel.add(wallF);
+		dataInputPanel.add(inputWallF);
+		dataInputPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		dataInputPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+		dataInputPanel.setOpaque(false);
+		this.add(dataInputPanel);
+
+		errorPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
+		errorPanel.setOpaque(false);
+
+		errorLabel = new JLabel();
+		errorLabel.setForeground(Color.RED);
+		errorPanel.add(errorLabel);
+
+		this.add(errorPanel);
+
+		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
+		dataInputPanel.setOpaque(false);
+
+		backButton = new JButton("Back");
+		backButton.setPreferredSize(new Dimension(220, 50));
+		backButton.setMaximumSize(new Dimension(220, 50));
+		buttonPanel.add(backButton);
+		backButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				WallSchemeLabel
-						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallA.jpg")));
+			public void actionPerformed(ActionEvent evt) {
+				clickedBackButton();
 			}
 		});
-		aTextField.setBounds(102, 490, 86, 20);
-		contentPane.add(aTextField);
-		aTextField.setColumns(10);
 
-		bTextField = new JTextField();
-		bTextField.addMouseListener(new MouseAdapter() {
+		nextButton = new JButton("Next");
+		nextButton.setPreferredSize(new Dimension(220, 50));
+		nextButton.setMaximumSize(new Dimension(220, 50));
+		buttonPanel.add(nextButton);
+		nextButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				WallSchemeLabel
-						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallB.jpg")));
+			public void actionPerformed(ActionEvent evt) {
+				clickedNextButton();
 			}
 		});
-		bTextField.setBounds(102, 515, 86, 20);
-		contentPane.add(bTextField);
-		bTextField.setColumns(10);
 
-		cTextField = new JTextField();
-		cTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				WallSchemeLabel
-						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallC.jpg")));
-			}
-		});
-		cTextField.setBounds(102, 540, 86, 20);
-		contentPane.add(cTextField);
-		cTextField.setColumns(10);
-
-		dTextField = new JTextField();
-		dTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				WallSchemeLabel
-						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallD.jpg")));
-			}
-		});
-		dTextField.setBounds(102, 565, 86, 20);
-		contentPane.add(dTextField);
-		dTextField.setColumns(10);
-
-		eTextField = new JTextField();
-		eTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				WallSchemeLabel
-						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallE.jpg")));
-			}
-		});
-		eTextField.setBounds(102, 590, 86, 20);
-		contentPane.add(eTextField);
-		eTextField.setColumns(10);
-
-		fTextField = new JTextField();
-		fTextField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				WallSchemeLabel
-						.setIcon(new ImageIcon(DimensionsInputPanel.class.getResource("/gui/images/WallF.jpg")));
-			}
-		});
-		fTextField.setBounds(102, 615, 86, 20);
-		contentPane.add(fTextField);
-		fTextField.setColumns(10);
-		
-
-		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dataHolder.setA(Double.parseDouble(aTextField.getText()));
-				dataHolder.setB(Double.parseDouble(bTextField.getText()));
-				dataHolder.setC(Double.parseDouble(cTextField.getText()));
-				dataHolder.setD(Double.parseDouble(dTextField.getText()));
-				dataHolder.setE(Double.parseDouble(eTextField.getText()));
-				dataHolder.setF(Double.parseDouble(fTextField.getText()));
-				
-				if(checkIfErrorsExist(errorTextPane, dataHolder) == 0){
-					setVisible(false);
-					ParametersInputPanel set = new ParametersInputPanel(dataHolder);
-					set.setVisible(true);
-				}
-				
-			}
-		});
-		btnSubmit.setBounds(607, 614, 89, 23);
-		contentPane.add(btnSubmit);
+		buttonPanel.setBorder(new EmptyBorder(10, 10, 20, 10));
+		this.add(buttonPanel);
 
 	}
-	
-	
-	private int returnErrorNumber(BCM d){
-		if(d.getA() <= 0 ||
-			d.getB() <= 0 ||
-			d.getC() <= 0 ||
-			d.getD() <= 0 ||
-			d.getE() <= 0 ||
-			d.getF() <= 0) return 1;
-		if(d.getB() + d.getD() != d.getF()) return 2;
-		if(d.getC() + d.getE() != d.getA()) return 3;
-		return 0;		
-	}
-	
-	private int checkIfErrorsExist(JTextPane errorTextPane, BCM dataHolder){
-		if(returnErrorNumber(dataHolder) == 1){
-			errorTextPane.setText("All the lengths of walls have to be bigger than 0");
-			errorTextPane.setVisible(true);
-			return 1;
+
+	public void clickedNextButton() {
+		if (validateData()) {
+			setData();
+			cardLayout.show(this.getParent(), "ParametersInputPanel");
 		}
-		if(returnErrorNumber(dataHolder) == 2){
-			errorTextPane.setText("Length of F wall has to be equal to the sum of lengths of walls B and D.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		if(returnErrorNumber(dataHolder) == 3){
-			errorTextPane.setText("Length of A wall has to be equal to the sum of lengths of walls C and E.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		return 0;
 	}
 
+	public void clickedBackButton() {
+		cardLayout.show(this.getParent(), "Menu");
+	}
+
+	private class WallsPanel extends JPanel {
+		public WallsPanel() {
+			this.setBackground(Color.WHITE);
+			this.setPreferredSize(new Dimension(600, 500));
+			this.setMinimumSize(new Dimension(200, 280));
+		}
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			int width = this.getWidth();
+			int height = this.getHeight();
+
+			Color color = Color.BLACK;
+			int size = 5;
+			setFont(new Font("Dialog", Font.BOLD, 20));
+
+			g.setColor(color);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(size));
+
+			drawLineA(g, Color.BLACK, 5);
+			drawLineB(g, Color.BLACK, 5);
+			drawLineC(g, Color.BLACK, 5);
+			drawLineD(g, Color.BLACK, 5);
+			drawLineE(g, Color.BLACK, 5);
+			drawLineF(g, Color.BLACK, 5);
+
+		}
+
+		public void drawLineA(Graphics g, Color color, int size) {
+			int width = this.getWidth();
+			int height = this.getHeight();
+			g.drawLine(20, 20, 20, height - 20);
+			g.drawString("A", 25, (int) (20 + 0.5 * height));
+		}
+
+		public void drawLineB(Graphics g, Color color, int size) {
+			int width = this.getWidth();
+			int height = this.getHeight();
+			g.drawLine(20, 20, (int) (0.3 * (width - 40)), 20);
+			g.drawString("B", (int) (0.5 * (0.3 * (width - 40))), 40);
+		}
+
+		public void drawLineC(Graphics g, Color color, int size) {
+			int width = this.getWidth();
+			int height = this.getHeight();
+			g.drawLine((int) (0.3 * (width - 40)), 20, (int) (0.3 * (width - 40)), (int) (0.3 * (height - 40)));
+			g.drawString("C", (int) ((0.3 * (width - 40)) - 20), (int) (0.5 * (0.3 * (height - 40)) + 20));
+		}
+
+		public void drawLineD(Graphics g, Color color, int size) {
+			int width = this.getWidth();
+			int height = this.getHeight();
+			g.drawLine((int) (0.3 * (width - 40)), (int) (0.3 * (height - 40)), width - 20,
+					(int) (0.3 * (height - 40)));
+			g.drawString("D", (int) (0.6 * width - 8), (int) (0.3 * (height - 40)) + 20);
+		}
+
+		public void drawLineE(Graphics g, Color color, int size) {
+			int width = this.getWidth();
+			int height = this.getHeight();
+			g.drawLine(width - 20, height - 20, width - 20, (int) (0.3 * (height - 40)));
+			g.drawString("E", (int) (width - 40), (int) (0.5 * height + 40));
+		}
+
+		public void drawLineF(Graphics g, Color color, int size) {
+			int width = this.getWidth();
+			int height = this.getHeight();
+			g.drawLine(20, height - 20, width - 20, height - 20);
+			g.drawString("F", (int) (0.5 * width - 40), (int) (height - 25));
+		}
+	}
+
+	private void setData() {
+		dataHolder.setWallA(Double.parseDouble(inputWallA.getText()));
+		dataHolder.setWallB(Double.parseDouble(inputWallB.getText()));
+		dataHolder.setWallC(Double.parseDouble(inputWallC.getText()));
+		dataHolder.setWallD(Double.parseDouble(inputWallD.getText()));
+		dataHolder.setWallE(Double.parseDouble(inputWallE.getText()));
+		dataHolder.setWallF(Double.parseDouble(inputWallF.getText()));
+	}
+
+	private boolean validateData() {
+
+		errorLabel.setText("");
+		try {
+			validateWallInput(inputWallA);
+			validateWallInput(inputWallB);
+			validateWallInput(inputWallC);
+			validateWallInput(inputWallD);
+			validateWallInput(inputWallE);
+			validateWallInput(inputWallF);
+
+			double a = Double.parseDouble(inputWallA.getText());
+			double b = Double.parseDouble(inputWallB.getText());
+			double c = Double.parseDouble(inputWallC.getText());
+			double d = Double.parseDouble(inputWallD.getText());
+			double e = Double.parseDouble(inputWallE.getText());
+			double f = Double.parseDouble(inputWallF.getText());
+
+			if ((a != (c + e))) {
+				throw new IllegalArgumentException("Sum of wall \"c\" and \"e\" must be equal to wall \"a\"");
+			}
+
+			if ((f != (b + d))) {
+				throw new IllegalArgumentException("Sum of wall \"b\" and \"d\" must be equal to wall \"f\"");
+			}
+
+			return true;
+		} catch (Exception e) {
+			errorLabel.setText(e.getMessage());
+			return false;
+		}
+	}
+
+	private void validateWallInput(JTextField wallInput) throws IllegalArgumentException, NumberFormatException {
+
+		wallInput.setBackground(Color.WHITE);
+
+		String wall = wallInput.getText();
+
+		if (wall.trim().isEmpty()) {
+			wallInput.setBackground(Color.RED);
+			throw new IllegalArgumentException("Wall size field cannot be empty");
+		}
+
+		Double wallSize;
+
+		try {
+			wallSize = Double.parseDouble(wall);
+		} catch (NumberFormatException e) {
+			wallInput.setBackground(Color.RED);
+			throw new NumberFormatException("Incorret wall size format");
+		}
+
+		if (wallSize < 0) {
+			wallInput.setBackground(Color.RED);
+			throw new IllegalArgumentException("Wall size field cannot be negative");
+		}
+	}
 }

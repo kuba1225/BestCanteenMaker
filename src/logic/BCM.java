@@ -8,169 +8,192 @@ import java.util.ArrayList;
  */
 public class BCM {
 
-    private static double a;
-    private static double b;
-    private static double c;
-    private static double d;
-    private static double e;
-    private static double f;
+	private double a;
+	private double b;
+	private double c;
+	private double d;
+	private double e;
+	private double f;
 
-    private static double budget;//oczekiwany bud偶et sto艂贸wki
-    private static int capacity;//oczekiwana liczba miejsc w sto艂贸wce
-    private static int iterations;//liczba iteracji algorytmu genetycznego
-    private static int numberOfIndividualsInIteration;//liczba osobnik贸w danej populacji
-    private static double hybrydizationFactor;//wsp贸艂czynnik krzy偶owania
-    private static double mutationFactor;//wsp贸艂czynnik mutacji
-    
-    private boolean stopFlag;
-    private Integer actualIteration;
-    private Integer iterationsSpeed;
+	private double budget;// oczekiwany bud縠t sto丑wki
+	private int capacity;// oczekiwana liczba miejsc w sto丑wce
+	private int iterations;// liczba iteracji algorytmu genetycznego
+	private int numberOfIndividualsInGeneration;// liczba osobnik體 danej populacji
+	private double hybrydizationFactor;// wsp蟪czynnik krzy縪wania
+	private double mutationFactor;// wsp蟪czynnik mutacji
 
-    private Population population;
-    private Population bestIndividualInEachIterationPopulation;//populacja zawieraj膮ca osobniki z ka偶dej iteracji o najwy偶szym wsp贸艂czynniku dostosowania
-    private FitnessCounter fc;
-    private GeneticAlgorithm ga;
+	private Integer iterationsSpeed;
 
-    /**
-     * Metoda ta generuje projekty sto艂贸wek zawieraj膮ce wsp贸艂rzedne rozstawienia
-     * poszczeg贸lnych obiekt贸w w sto艂贸wce.
-     */
-    public void generateProjects(){
-        population = new Population(numberOfIndividualsInIteration);
-        bestIndividualInEachIterationPopulation = new Population(numberOfIndividualsInIteration);
-        population.createPopulation();
-        fc = new FitnessCounter(population);
-        fc.calculateFitness();
-        fc.writePopulationComfortFactors();
-        ga = new GeneticAlgorithm(population, hybrydizationFactor, mutationFactor, iterations);
+	private Population population;
+	private Population bestIndividualInEachIterationPopulation;// populacja zawieraj筩a osobniki z ka縟ej iteracji o
+																// najwy縮zym wsp蟪czynniku dostosowania
+	private FitnessCounter fc;
+	private GeneticAlgorithm ga;
 
-        for (int i = 0; i < iterations; i++) {
-            population = ga.evolve(population);
-            fc.setPopulation(population);
-            fc.calculateFitness();
+	private DataHolder dataHolder;
 
-            bestIndividualInEachIterationPopulation.getIndividualsPopulation().add(fc.findBestIndividualInPopulation());
-        }
+	public BCM(DataHolder dataHolder) {
+		this.a = dataHolder.getWallA();
+		this.b = dataHolder.getWallB();
+		this.c = dataHolder.getWallC();
+		this.d = dataHolder.getWallD();
+		this.e = dataHolder.getWallE();
+		this.f = dataHolder.getWallF();
 
-        fc.setPopulation(bestIndividualInEachIterationPopulation);
-        fc.writePopulationComfortFactors();
-    }
+		this.budget = dataHolder.getBudget();
+		this.capacity = dataHolder.getCapacity();
+		this.iterations = dataHolder.getIterations();
+		this.numberOfIndividualsInGeneration = dataHolder.getNumberOfIndividualsInGeneration();
+		this.hybrydizationFactor = dataHolder.getHybrydizationFactor();
+		this.mutationFactor = dataHolder.getMutationFactor();
+		this.iterationsSpeed = dataHolder.getIterationsSpeed();
 
-    public Population getBestIndividualInEachIterationPopulation() {
-        return bestIndividualInEachIterationPopulation;
-    }
-
-    public static double getA() {
-        return a;
-    }
-
-    public static void setA(double a) {
-        BCM.a = a;
-    }
-
-    public static double getB() {
-        return b;
-    }
-
-    public static void setB(double b) {
-        BCM.b = b;
-    }
-
-    public static double getC() {
-        return c;
-    }
-
-    public static void setC(double c) {
-        BCM.c = c;
-    }
-
-    public static double getD() {
-        return d;
-    }
-
-    public static void setD(double d) {
-        BCM.d = d;
-    }
-
-    public static double getE() {
-        return e;
-    }
-
-    public static void setE(double e) {
-        BCM.e = e;
-    }
-
-    public static double getF() {
-        return f;
-    }
-
-    public static void setF(double f) {
-        BCM.f = f;
-    }
-
-    public static double getBudget() {
-        return budget;
-    }
-
-    public static void setBudget(double budget) {
-        BCM.budget = budget;
-    }
-
-    public static int getCapacity() {
-        return capacity;
-    }
-
-    public static void setCapacity(int capacity) {
-        BCM.capacity = capacity;
-    }
-
-    public static int getIterations() {
-        return iterations;
-    }
-
-    public static void setIterations(int iterations) {
-        BCM.iterations = iterations;
-    }
-
-    public Integer getActualIteration() {
-		return actualIteration;
+		this.dataHolder = dataHolder;
 	}
 
-	public void setActualIteration(Integer actualIteration) {
-		this.actualIteration = actualIteration;
+	/**
+	 * Metoda ta generuje projekty sto丑wek zawieraj筩e wsp蟪rzedne rozstawienia
+	 * poszczeg髄nych obiekt體 w sto丑wce.
+	 */
+	public void generateProjects() {
+		population = new Population(numberOfIndividualsInGeneration, dataHolder);
+		bestIndividualInEachIterationPopulation = new Population(numberOfIndividualsInGeneration, dataHolder);
+		population.createPopulation();
+		fc = new FitnessCounter(dataHolder, population);
+		fc.calculateFitness();
+		fc.writePopulationComfortFactors();
+		ga = new GeneticAlgorithm(population, dataHolder);
+
+		for (int i = 0; i < iterations; i++) {
+			population = ga.evolve(population);
+			fc.setPopulation(population);
+			fc.calculateFitness();
+
+			bestIndividualInEachIterationPopulation.getIndividualsPopulation().add(fc.findBestIndividualInPopulation());
+		}
+
+		fc.setPopulation(bestIndividualInEachIterationPopulation);
+		fc.writePopulationComfortFactors();
 	}
 
-	public static int getNumberOfIndividualsInIteration() {
-        return numberOfIndividualsInIteration;
-    }
-
-    public static void setNumberOfIndividualsInIteration(int numberOfIndividualsInIteration) {
-        BCM.numberOfIndividualsInIteration = numberOfIndividualsInIteration;
-    }
-
-    public static double getHybrydizationFactor() {
-        return hybrydizationFactor;
-    }
-
-    public static void setHybrydizationFactor(double hybrydizationFactor) {
-        BCM.hybrydizationFactor = hybrydizationFactor;
-    }
-
-    public static double getMutationFactor() {
-        return mutationFactor;
-    }
-
-    public static void setMutationFactor(double mutationFactor) {
-        BCM.mutationFactor = mutationFactor;
-    }
-
-
-	public boolean isStopFlag() {
-		return stopFlag;
+	public Population getBestIndividualInEachIterationPopulation() {
+		return bestIndividualInEachIterationPopulation;
 	}
 
-	public void setStopFlag(boolean stopFlag) {
-		this.stopFlag = stopFlag;
+	public double getA() {
+		return a;
+	}
+
+	public void setA(double a) {
+		this.a = a;
+	}
+
+	public double getB() {
+		return b;
+	}
+
+	public void setB(double b) {
+		this.b = b;
+	}
+
+	public double getC() {
+		return c;
+	}
+
+	public void setC(double c) {
+		this.c = c;
+	}
+
+	public double getD() {
+		return d;
+	}
+
+	public void setD(double d) {
+		this.d = d;
+	}
+
+	public double getE() {
+		return e;
+	}
+
+	public void setE(double e) {
+		this.e = e;
+	}
+
+	public double getF() {
+		return f;
+	}
+
+	public void setF(double f) {
+		this.f = f;
+	}
+
+	public double getBudget() {
+		return budget;
+	}
+
+	public void setBudget(double budget) {
+		this.budget = budget;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public int getIterations() {
+		return iterations;
+	}
+
+	public void setIterations(int iterations) {
+		this.iterations = iterations;
+	}
+
+	public int getNumberOfIndividualsInGeneration() {
+		return numberOfIndividualsInGeneration;
+	}
+
+	public void setNumberOfIndividualsInGeneration(int numberOfIndividualsInIteration) {
+		this.numberOfIndividualsInGeneration = numberOfIndividualsInIteration;
+	}
+
+	public double getHybrydizationFactor() {
+		return hybrydizationFactor;
+	}
+
+	public void setHybrydizationFactor(double hybrydizationFactor) {
+		this.hybrydizationFactor = hybrydizationFactor;
+	}
+
+	public double getMutationFactor() {
+		return mutationFactor;
+	}
+
+	public void setMutationFactor(double mutationFactor) {
+		this.mutationFactor = mutationFactor;
+	}
+
+	public FitnessCounter getFc() {
+		return fc;
+	}
+
+	public void setFc(FitnessCounter fc) {
+		this.fc = fc;
+	}
+
+	public GeneticAlgorithm getGa() {
+		return ga;
+	}
+
+	public void setGa(GeneticAlgorithm ga) {
+		this.ga = ga;
+	}
+
+	public void setBestIndividualInEachIterationPopulation(Population bestIndividualInEachIterationPopulation) {
+		this.bestIndividualInEachIterationPopulation = bestIndividualInEachIterationPopulation;
 	}
 
 	public Integer getIterationsSpeed() {
@@ -188,28 +211,15 @@ public class BCM {
 	public void setPopulation(Population population) {
 		this.population = population;
 	}
-	
-    
-    public BCM(){
-    	a = 0;
-        b = 0;
-        c = 0;
-        d = 0;
-        e = 0;
-        f = 0;
 
-        budget = 0;
-        capacity = 0;
-        iterations = 0;
-        numberOfIndividualsInIteration = 0;
-        hybrydizationFactor = 0;
-        mutationFactor = 0;
-        
-        stopFlag = false;
-        actualIteration = 0;
-        iterationsSpeed = 0;
-    }
+	@Override
+	public String toString() {
+		return "BCM [a=" + a + ", b=" + b + ", c=" + c + ", d=" + d + ", e=" + e + ", f=" + f + ", budget=" + budget
+				+ ", capacity=" + capacity + ", iterations=" + iterations + ", numberOfIndividualsInGeneration="
+				+ numberOfIndividualsInGeneration + ", hybrydizationFactor=" + hybrydizationFactor + ", mutationFactor="
+				+ mutationFactor + ", iterationsSpeed=" + iterationsSpeed + ", population=" + population
+				+ ", bestIndividualInEachIterationPopulation=" + bestIndividualInEachIterationPopulation + ", fc=" + fc
+				+ ", ga=" + ga + "]";
+	}
 
 }
-
-

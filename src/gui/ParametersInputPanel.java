@@ -1,203 +1,257 @@
 package gui;
 
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
-import logic.BCM;
+import logic.DataHolder;
 
-public class ParametersInputPanel extends JFrame {
+public class ParametersInputPanel extends JPanel {
 
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JPanel titlePanel;
+	private JLabel title;
 
-	public ParametersInputPanel(BCM dataHolder) {
-		super("Best Canteen Maker");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 446, 369);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	private JLabel budgetLabel;
+	private JLabel capacityLabel;
+	private JLabel iterationsLabel;
+	private JLabel iterationsSpeedLabel;
+	private JLabel numberOfIndividualsInGenerationLabel;
+	private JLabel hybrydizationFactorLabel;
+	private JLabel mutationFactorLabel;
 
-		JLabel lblSetCanteenMaking = new JLabel("Insert canteen parameters");
-		lblSetCanteenMaking.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblSetCanteenMaking.setBounds(10, 11, 240, 21);
-		contentPane.add(lblSetCanteenMaking);
+	private JPanel dataInputPanel;
 
-		JLabel lblBudget = new JLabel("Budget");
-		lblBudget.setBounds(10, 43, 46, 14);
-		contentPane.add(lblBudget);
+	private JTextField insertBudget;
+	private JTextField insertCapacity;
+	private JTextField insertIterations;
+	private JTextField insertIterationsSpeed;
+	private JTextField insertNumberOfIndividualsInGeneration;
+	private JTextField insertHybrydizationFactor;
+	private JTextField insertMutationFactor;
 
-		JLabel lblCapacity = new JLabel("Capacity");
-		lblCapacity.setBounds(10, 68, 63, 14);
-		contentPane.add(lblCapacity);
+	private JPanel buttonPanel;
 
-		JLabel lblIterations = new JLabel("Iterations");
-		lblIterations.setBounds(10, 93, 63, 14);
-		contentPane.add(lblIterations);
+	private JPanel errorPanel;
 
-		JLabel lblIterationsSpeed = new JLabel("Iterations speed");
-		lblIterationsSpeed.setBounds(10, 118, 110, 14);
-		contentPane.add(lblIterationsSpeed);
+	private JLabel errorLabel;
 
-		JLabel lblIndividuals = new JLabel("Number of individuals in generation");
-		lblIndividuals.setBounds(10, 143, 182, 14);
-		contentPane.add(lblIndividuals);
+	private JButton backButton;
+	private JButton nextButton;
 
-		JLabel lblHybrydizationFactor = new JLabel("Hybrydization factor");
-		lblHybrydizationFactor.setBounds(10, 168, 141, 14);
-		contentPane.add(lblHybrydizationFactor);
+	private CardLayout cardLayout;
+	private DataHolder dataHolder;
 
-		JLabel lblMutationFactor = new JLabel("Mutation factor");
-		lblMutationFactor.setBounds(10, 193, 110, 14);
-		contentPane.add(lblMutationFactor);
+	/**
+	 * Create the panel.
+	 */
+	public ParametersInputPanel(CardLayout cardLayout, DataHolder dataHolder) {
+		this.cardLayout = cardLayout;
+		this.dataHolder = dataHolder;
 
-		textField = new JTextField();
-		textField.setBounds(265, 40, 126, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(265, 65, 126, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		JPanel titlePanel = new JPanel();
+		title = new JLabel("Insert canteen parameters");
+		title.setFont(new Font("Arial", Font.PLAIN, 30));
+		titlePanel.add(title);
+		titlePanel.setMaximumSize(new Dimension(500, 100));
+		titlePanel.setSize(new Dimension(500, 100));
+		titlePanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+		titlePanel.setOpaque(false);
+		this.add(titlePanel);
 
-		textField_2 = new JTextField();
-		textField_2.setBounds(265, 90, 126, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		dataInputPanel = new JPanel(new GridLayout(7, 2, 25, 25));
 
-		textField_3 = new JTextField();
-		textField_3.setBounds(265, 115, 126, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		budgetLabel = new JLabel("Budget (PLN):");
+		budgetLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		capacityLabel = new JLabel("Capacity (persons):");
+		capacityLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		iterationsLabel = new JLabel("Iterations:");
+		iterationsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		iterationsSpeedLabel = new JLabel("Iterations speed (it/min):");
+		iterationsSpeedLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		numberOfIndividualsInGenerationLabel = new JLabel("Number of individuals:");
+		numberOfIndividualsInGenerationLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		hybrydizationFactorLabel = new JLabel("Hybrydization factor:");
+		hybrydizationFactorLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		mutationFactorLabel = new JLabel("Mutation factor:");
+		mutationFactorLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 
-		textField_4 = new JTextField();
-		textField_4.setBounds(265, 140, 126, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		insertBudget = new JTextField();
+		insertCapacity = new JTextField();
+		insertIterations = new JTextField();
+		insertIterationsSpeed = new JTextField();
+		insertNumberOfIndividualsInGeneration = new JTextField();
+		insertHybrydizationFactor = new JTextField();
+		insertMutationFactor = new JTextField();
 
-		textField_5 = new JTextField();
-		textField_5.setBounds(265, 165, 126, 20);
-		contentPane.add(textField_5);
-		textField_5.setColumns(10);
+		dataInputPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
 
-		textField_6 = new JTextField();
-		textField_6.setBounds(265, 190, 126, 20);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
+		dataInputPanel.add(budgetLabel);
+		dataInputPanel.add(insertBudget);
+		dataInputPanel.add(capacityLabel);
+		dataInputPanel.add(insertCapacity);
+		dataInputPanel.add(iterationsLabel);
+		dataInputPanel.add(insertIterations);
+		dataInputPanel.add(iterationsSpeedLabel);
+		dataInputPanel.add(insertIterationsSpeed);
+		dataInputPanel.add(numberOfIndividualsInGenerationLabel);
+		dataInputPanel.add(insertNumberOfIndividualsInGeneration);
+		dataInputPanel.add(hybrydizationFactorLabel);
+		dataInputPanel.add(insertHybrydizationFactor);
+		dataInputPanel.add(mutationFactorLabel);
+		dataInputPanel.add(insertMutationFactor);
 
-		JLabel lblPln = new JLabel("PLN");
-		lblPln.setBounds(401, 43, 46, 14);
-		contentPane.add(lblPln);
+		dataInputPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		dataInputPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+		dataInputPanel.setOpaque(false);
+		this.add(dataInputPanel);
 
-		JLabel lblPrs = new JLabel("prs");
-		lblPrs.setBounds(401, 68, 46, 14);
-		contentPane.add(lblPrs);
+		errorPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
+		errorPanel.setOpaque(false);
+		errorPanel.setBorder(new EmptyBorder(20, 50, 20, 50));
 
-		JLabel lblImin = new JLabel("i/min");
-		lblImin.setBounds(401, 118, 46, 14);
-		contentPane.add(lblImin);
-		
-		JTextPane errorTextPane = new JTextPane();
-		errorTextPane.setEditable(false);
-		errorTextPane.setForeground(Color.RED);
-		errorTextPane.setBackground(SystemColor.menu);
-		errorTextPane.setBounds(10, 218, 420, 77);
-		contentPane.add(errorTextPane);
-		errorTextPane.setVisible(false);
+		errorLabel = new JLabel();
+		errorLabel.setForeground(Color.RED);
+		errorPanel.add(errorLabel);
 
-		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.addMouseListener(new MouseAdapter() {
+		this.add(errorPanel);
+
+		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
+		dataInputPanel.setOpaque(false);
+
+		backButton = new JButton("Back");
+		backButton.setPreferredSize(new Dimension(220, 50));
+		backButton.setMaximumSize(new Dimension(220, 50));
+		buttonPanel.add(backButton);
+
+		nextButton = new JButton("Generate");
+		nextButton.setPreferredSize(new Dimension(220, 50));
+		nextButton.setMaximumSize(new Dimension(220, 50));
+		nextButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-					dataHolder.setBudget(Double.parseDouble(textField.getText()));
-					dataHolder.setCapacity(Integer.parseInt(textField_1.getText()));
-					dataHolder.setIterations(Integer.parseInt(textField_2.getText()));
-					dataHolder.setIterationsSpeed(Integer.parseInt(textField_3.getText()));
-					dataHolder.setNumberOfIndividualsInIteration(Integer.parseInt(textField_4.getText()));
-					dataHolder.setHybrydizationFactor(Double.parseDouble(textField_5.getText()));
-					dataHolder.setMutationFactor(Double.parseDouble(textField_6.getText()));
-					if(checkIfErrorsExist(errorTextPane, dataHolder) == 0){
-						setVisible(false);
-						Visualiser visualiser = new Visualiser(dataHolder);
-						visualiser.setVisible(true);
-					}
-					
+			public void actionPerformed(ActionEvent evt) {
+				clickedGenerateButton();
 			}
-
 		});
-		btnSubmit.setBounds(341, 306, 89, 23);
-		contentPane.add(btnSubmit);
-		
+		buttonPanel.add(nextButton);
+
+		buttonPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
+		this.add(buttonPanel);
+
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				clickedBackButton();
+			}
+		});
+
 	}
-	
-	private int returnErrorNumber(BCM dataHolder){
-		if(dataHolder.getBudget() <= 0) return 1;
-		if(dataHolder.getCapacity() <= 0) return 2;
-		if(dataHolder.getIterations() <= 0) return 3;
-		if(dataHolder.getIterationsSpeed() < 0) return 4;
-		if(dataHolder.getNumberOfIndividualsInIteration() <= 0) return 5;
-		if(dataHolder.getHybrydizationFactor() < 0) return 6;
-		if(dataHolder.getMutationFactor() < 0) return 7;
-		else return 0;
+
+	private void clickedBackButton() {
+		cardLayout.show(this.getParent(), "DimensionsInputPanel");
 	}
-	
-	private int checkIfErrorsExist(JTextPane errorTextPane, BCM dataHolder){
-		if(returnErrorNumber(dataHolder) == 1){
-			errorTextPane.setText("Budget has to be bigger or equal to 0.");
-			errorTextPane.setVisible(true);
-			return 1;
+
+	private void clickedGenerateButton() {
+		if (validateData()) {
+			setData();
+			cardLayout.show(this.getParent(), "Visualizer");
 		}
-		if(returnErrorNumber(dataHolder) == 2){
-			errorTextPane.setText("Capacity has to be bigger or equal to 0.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		if(returnErrorNumber(dataHolder) == 3){
-			errorTextPane.setText("There has to be at least 1 iteration to make a simulation.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		if(returnErrorNumber(dataHolder) == 4){
-			errorTextPane.setText("Iterations speed has to be bigger than 0.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		if(returnErrorNumber(dataHolder) == 5){
-			errorTextPane.setText("Number Of Individuals in Iteration has to be bigger than 0.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		if(returnErrorNumber(dataHolder) == 6){
-			errorTextPane.setText("Hybridization Factor has to be equal to 0 or bigger.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		if(returnErrorNumber(dataHolder) == 7){
-			errorTextPane.setText("Mutation Factor has to be equal to 0 or bigger.");
-			errorTextPane.setVisible(true);
-			return 1;
-		}
-		
-		return 0;
 	}
+
+	private void setData() {
+		dataHolder.setBudget(Double.parseDouble(insertBudget.getText()));
+		dataHolder.setCapacity(Integer.parseInt(insertCapacity.getText()));
+		dataHolder.setIterations(Integer.parseInt(insertIterations.getText()));
+		dataHolder.setIterationsSpeed(Integer.parseInt(insertIterationsSpeed.getText()));
+		dataHolder
+				.setNumberOfIndividualsInGeneration(Integer.parseInt(insertNumberOfIndividualsInGeneration.getText()));
+		dataHolder.setHybrydizationFactor(Double.parseDouble(insertHybrydizationFactor.getText()));
+		dataHolder.setMutationFactor(Double.parseDouble(insertMutationFactor.getText()));
+	}
+
+	private boolean validateData() {
+
+		errorLabel.setText("");
+		try {
+			validateInputDouble(insertBudget);
+			validateInputInteger(insertCapacity);
+			validateInputInteger(insertIterations);
+			validateInputInteger(insertIterationsSpeed);
+			validateInputInteger(insertNumberOfIndividualsInGeneration);
+			validateInputDouble(insertHybrydizationFactor);
+			validateInputDouble(insertMutationFactor);
+			return true;
+		} catch (Exception e) {
+			errorLabel.setText(e.getMessage());
+			return false;
+		}
+	}
+
+	private void validateInputDouble(JTextField inputDouble) throws IllegalArgumentException, NumberFormatException {
+
+		inputDouble.setBackground(Color.WHITE);
+
+		String strVal = inputDouble.getText();
+
+		if (strVal.trim().isEmpty()) {
+			inputDouble.setBackground(Color.RED);
+			throw new IllegalArgumentException("Value cannot be empty");
+		}
+
+		Double doubleVal;
+
+		try {
+			doubleVal = Double.parseDouble(strVal);
+		} catch (NumberFormatException e) {
+			inputDouble.setBackground(Color.RED);
+			throw new NumberFormatException("Incorret value format");
+		}
+
+		if (doubleVal < 0) {
+			inputDouble.setBackground(Color.RED);
+			throw new IllegalArgumentException("Value cannot be negative");
+		}
+	}
+
+	private void validateInputInteger(JTextField inputInteger) throws IllegalArgumentException, NumberFormatException {
+
+		inputInteger.setBackground(Color.WHITE);
+
+		String strVal = inputInteger.getText();
+
+		if (strVal.trim().isEmpty()) {
+			inputInteger.setBackground(Color.RED);
+			throw new IllegalArgumentException("Value cannot be empty");
+		}
+
+		Integer integerVal;
+
+		try {
+			integerVal = Integer.parseInt(strVal);
+		} catch (NumberFormatException e) {
+			inputInteger.setBackground(Color.RED);
+			throw new NumberFormatException("Incorret value format");
+		}
+
+		if (integerVal < 0) {
+			inputInteger.setBackground(Color.RED);
+			throw new IllegalArgumentException("Value cannot be negative");
+		}
+	}
+
 }

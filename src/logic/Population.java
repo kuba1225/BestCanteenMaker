@@ -9,36 +9,36 @@ import logic.Individual;
  */
 public class Population {
 
-    private ArrayList<Individual> individualsPopulation;
-    private IndividualCounter ic = new IndividualCounter();
-    private int sizePopulation;
+	private ArrayList<Individual> individualsPopulation;
+	private IndividualCounter ic;
+	private int sizePopulation;
 
-    public Population(int sizePopulation) {
-        individualsPopulation = new ArrayList<Individual>();
-        this.sizePopulation = sizePopulation;
-        //createPopulation(sizePopulation);
-    }
+	public Population(int sizePopulation, DataHolder dataHolder) {
+		individualsPopulation = new ArrayList<Individual>();
+		this.sizePopulation = sizePopulation;
+		ic = new IndividualCounter(dataHolder);
+		// createPopulation(sizePopulation);
+	}
 
-    public ArrayList<Individual> getIndividualsPopulation() {
-        return individualsPopulation;
-    }
+	public ArrayList<Individual> getIndividualsPopulation() {
+		return individualsPopulation;
+	}
 
-    public int individualsPopulationSize() {
-        return individualsPopulation.size();
-    }
+	public int individualsPopulationSize() {
+		return individualsPopulation.size();
+	}
 
-    /**
-     * Metoda ta ma za zadanie utworzenie populacji liczacej ‚ÄûsizePopulation‚Äù
-     * osobnik√≥w.
-     */
-    public void createPopulation() {
-        for (int i = 0; i < sizePopulation; i++) {
-            individualsPopulation.add(new Individual());
-        }
-        for (int i = 0; i < sizePopulation; i++) {
-            ic.generateIndividual(individualsPopulation.get(i));
-        }
-    }
+	/**
+	 * Metoda ta ma za zadanie utworzenie populacji liczacej ÑsizePopulationî
+	 * osobnikÛw.
+	 */
+	public void createPopulation() {
+		for (int i = 0; i < sizePopulation; i++) {
+			individualsPopulation.add(new Individual());
+		}
+		for (int i = 0; i < sizePopulation; i++) {
+			ic.generateIndividual(individualsPopulation.get(i));
+		}
+	}
 
-   
 }

@@ -7,8 +7,8 @@ package canteencomponents;
 public class Seat extends CanteenComponents {
 
     /**
-     * Z ktÃ³rej strony stoÅ‚u ma zostaÄ‡ ustawione krzesÅ‚o: 0 - od gÃ³ry, 1 - po
-     * prawej, 2 - od doÅ‚u, 3 - po lewej
+     * Z której strony sto³u ma zostaæ ustawione krzes³o: 0 - od góry, 1 - po
+     * prawej, 2 - od do³u, 3 - po lewej
      */
     int sideOfTable;
 

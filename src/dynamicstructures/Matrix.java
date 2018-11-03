@@ -7,7 +7,7 @@ package dynamicstructures;
 public class Matrix implements MatrixInterface {
 
     /**
-     * Konstruktor tworzÄ…cy macierz o podanych wymiarach.
+     * Konstruktor tworz¹cy macierz o podanych wymiarach.
      *
      * @param rn liczba wierszy
      * @param cn liczba kolumn
@@ -24,8 +24,8 @@ public class Matrix implements MatrixInterface {
     private int[] matrix;//tablica do przechowywania macierzy asdasd asd
 
     /**
-     * Metoda ta umieszcz obiekt w macierzy w podanym miejscu, zastÄ™pujÄ…c
-     * znajdujÄ…cÄ… siÄ™ w niej wczeÅ›niej zawartoÅ›Ä‡.
+     * Metoda ta umieszcz obiekt w macierzy w podanym miejscu, zastêpuj¹c
+     * znajduj¹c¹ siê w niej wczeœniej zawartoœæ.
      *
      * @param obj obiekt wstawiany do macierzy
      * @param row numer wiersza
@@ -41,8 +41,8 @@ public class Matrix implements MatrixInterface {
     }
 
     /**
-     * Metoda ta umieszcz obiekt w macierzy w podanym miejscu, dodajÄ…c podany
-     * obiekt do zawartoÅ›ci juÅ¼ znajdujÄ…cej siÄ™ w podanym miejscu macierzy.
+     * Metoda ta umieszcz obiekt w macierzy w podanym miejscu, dodaj¹c podany
+     * obiekt do zawartoœci ju¿ znajduj¹cej siê w podanym miejscu macierzy.
      *
      * @param obj obiekt wstawiany do macierzy
      * @param row numer wiersza
@@ -58,12 +58,12 @@ public class Matrix implements MatrixInterface {
     }
 
     /**
-     * Metoda ta zwraca obiekt typu int znajdujÄ…cy siÄ™ w podanym miejscu
+     * Metoda ta zwraca obiekt typu int znajduj¹cy siê w podanym miejscu
      * macierzy.
      *
-     * @param row numer wiersza macierzy z ktÃ³rego chcemy pobraÄ‡ wartoÅ›Ä‡
-     * @param column numer kolumny macierzy z ktÃ³rego chcemy pobraÄ‡ wartoÅ›Ä‡
-     * @return wartoÅ›Ä‡ znajdujÄ…ca siÄ™ pod podanymi wspÃ³Å‚rzÄ™dnymi
+     * @param row numer wiersza macierzy z którego chcemy pobraæ wartoœæ
+     * @param column numer kolumny macierzy z którego chcemy pobraæ wartoœæ
+     * @return wartoœæ znajduj¹ca siê pod podanymi wspó³rzêdnymi
      */
     @Override
     public int get(int row, int column) {
@@ -75,7 +75,7 @@ public class Matrix implements MatrixInterface {
     }
 
     /**
-     * Metoda ta zwraca liczbÄ™ kolumn w macierzy.
+     * Metoda ta zwraca liczbê kolumn w macierzy.
      *
      * @return liczba kolumn w macierzy
      */
@@ -85,7 +85,7 @@ public class Matrix implements MatrixInterface {
     }
 
     /**
-     * Metoda ta zwraca liczbÄ™ wierszy w macierzy.
+     * Metoda ta zwraca liczbê wierszy w macierzy.
      *
      * @return liczba wierszy w macierzy
      */
@@ -95,9 +95,9 @@ public class Matrix implements MatrixInterface {
     }
 
     /**
-     * Metoda ta wypeÅ‚nia caÅ‚Ä… macierz podanÄ… wartoÅ›ciÄ…
+     * Metoda ta wype³nia ca³¹ macierz podan¹ wartoœci¹
      *
-     * @param obj wartoÅ›Ä‡ jakÄ… chcemy wypeÅ‚niÄ‡ caÅ‚Ä… macierz
+     * @param obj wartoœæ jak¹ chcemy wype³niæ ca³¹ macierz
      */
     public void fillAllMatrix(int obj) {
         for (int i = 0; i < rn; i++) {
@@ -108,13 +108,13 @@ public class Matrix implements MatrixInterface {
     }
 
     /**
-     * Metoda ta wypeÅ‚nia podany obszar macierzy podanÄ… wartoÅ›ciÄ…
+     * Metoda ta wype³nia podany obszar macierzy podan¹ wartoœci¹
      *
-     * @param obj wartoÅ›Ä‡ jakÄ… chcemy wypeÅ‚niÄ‡ podany obszar macierzy
-     * @param r1 wiersz od ktÃ³rego chcemy rozpoczÄ…Ä‡ wypeÅ‚nianie (wÅ‚Ä…cznie)
-     * @param r2 wiersz na ktÃ³rym chcemy zakoÅ„czyÄ‡ wypeÅ‚nianie (nie wÅ‚Ä…cznie)
-     * @param c1 kolumna od ktÃ³rej chcemy rozpoczÄ…Ä‡ wypeÅ‚nianie (wÅ‚Ä…cznie)
-     * @param c2 kolumna na ktÃ³rej chcemy zakoÅ„czyÄ‡ wypeÅ‚nianie (nie wÅ‚Ä…cznie)
+     * @param obj wartoœæ jak¹ chcemy wype³niæ podany obszar macierzy
+     * @param r1 wiersz od którego chcemy rozpocz¹æ wype³nianie (w³¹cznie)
+     * @param r2 wiersz na którym chcemy zakoñczyæ wype³nianie (nie w³¹cznie)
+     * @param c1 kolumna od której chcemy rozpocz¹æ wype³nianie (w³¹cznie)
+     * @param c2 kolumna na której chcemy zakoñczyæ wype³nianie (nie w³¹cznie)
      */
     public void fillAreaInMatrix(int obj, int r1, int r2, int c1, int c2) {
         if (c1 >= 0 && c1 < cn && c2 >= 0 && c2 <= cn && r1 >= 0 && r1 < rn && r2 >= 0 && r2 <= rn) {
@@ -129,7 +129,7 @@ public class Matrix implements MatrixInterface {
     }
 
     /**
-     * Metoda ta wypisuje caÅ‚Ä… macierz.
+     * Metoda ta wypisuje ca³¹ macierz.
      */
     public void writeMatrix() {
         for (int i = 0; i < rn; i++) {
