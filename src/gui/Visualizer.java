@@ -62,8 +62,8 @@ public class Visualizer extends JPanel {
 		menuContainerPanel = new JPanel(new GridBagLayout());
 
 		GridBagConstraints c2 = new GridBagConstraints();
-		c2.insets = new Insets(3,3,3,3);
-		
+		c2.insets = new Insets(3, 3, 3, 3);
+
 		c2.gridx = 0;
 		c2.gridy = 0;
 		capacityLabel = new JLabel("Capacity");
@@ -105,7 +105,6 @@ public class Visualizer extends JPanel {
 		c2.gridy = 3;
 		startStopButton = new JButton("Start");
 		menuContainerPanel.add(startStopButton, c2);
-
 
 		c2.gridx = 1;
 		c2.gridy = 4;
@@ -165,7 +164,9 @@ public class Visualizer extends JPanel {
 					firstTime = false;
 					bcm = new BCM(dataHolder);
 					bcm.generateProjects();
-					timer = new Timer(60000 / bcm.getIterationsSpeed(), doNextIteration);
+					if (bcm.getIterationsSpeed() != 0) {
+						timer = new Timer(60000 / bcm.getIterationsSpeed(), doNextIteration);
+					}
 				}
 
 				if (bcm.getIterationsSpeed() != 0) {
@@ -215,7 +216,6 @@ public class Visualizer extends JPanel {
 					nextButton.setEnabled(false);
 			}
 		});
-
 
 	}
 }
